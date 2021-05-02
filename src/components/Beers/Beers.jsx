@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import './Beers.css';
 
 const beerDetail = {
@@ -64,6 +65,7 @@ const Beers = () => (
         {' '}
         {beerDetail.company.phoneNumber}
       </p>
+
     </section>
 
     <Link to="/shop">Regresa al listado de Cervezas</Link>
