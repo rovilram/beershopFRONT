@@ -1,0 +1,23 @@
+.beer_wrapper .infoWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.beer_wrapper .textWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 2rem;
+}
+
+.beer_wrapper .beerPrice {
+  font-weight: bold;
+  color: #df8d03;
+}
+
+.beer_wrapper .companyWrapper {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
