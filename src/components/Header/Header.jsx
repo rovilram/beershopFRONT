@@ -2,9 +2,9 @@ import React from 'react';
 import './Header.css';
 
 const Header = () => (
-  <header>
+  <header className="header">
 
-    <h1>BEERSHOP</h1>
+    <h1>BeerSHOP</h1>
 
   </header>
 );

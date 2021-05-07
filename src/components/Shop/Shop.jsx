@@ -1,28 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Shop.css';
 import { DataGrid } from '@material-ui/data-grid';
-import useFetchBeers from '../../hooks/useFetch/useFetchBeers';
+import useFetch from '../../hooks/useFetch/useFetch';
+
+import SearchForm from '../SearchForm/SearchForm'
 
 const Shop = () => {
-  const [beers, setBeers] = useState('');
-  const history = useHistory();
 
-  const [beersState, fetchBeers] = useFetchBeers();
+  const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
+
+  const history = useHistory();
+  const [stateBeers, fetchBeers] = useFetch();
 
   useEffect(() => {
-    fetchBeers()
-      .then((data) => setBeers(data));
+    fetchBeers({
+      url: 'http://localhost:5000/products/1',
+      method: 'GET',
+    });
   }, [fetchBeers]);
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: 'Nombre', width: 250 },
-    { field: 'photo', headerName: 'FOTO', width: 130 },
+/*     { field: 'id', headerName: 'ID', width: 70 },
+ */ 
+    { field: 'name', headerName: 'Nombre', width: 350 },
     {
       field: 'style',
       headerName: 'Style',
-      width: 250,
+      width: 200,
     },
     {
       field: 'price',
@@ -37,14 +43,19 @@ const Shop = () => {
       width: 150,
     },
     {
-      field: 'company',
+      field: 'Company.name',
       headerName: 'Compañia',
-      width: 125,
+      width: 200,
     },
   ];
-  const rows = beersState.isSuccess && beers
-    ? beers.filter((el) => el.name.toLowerCase().includes(''))
-    : [];
+  const beers = stateBeers.isSuccess ? stateBeers.data.response : [];
+  const rows = stateBeers.isSuccess && beers
+    ? 
+      beers.filter((el) =>
+            el.name.toLowerCase().includes(name) 
+      ).filter((el)=>el["Company.name"].toLowerCase().includes(company))
+    :
+    [];
   // const rows = [];
 
   const clickHandler = (e) => {
@@ -53,29 +64,23 @@ const Shop = () => {
 
   return (
     <div className="Shop_Wrapper">
-
       <h2>Nuestras cervezas</h2>
 
-      {beersState.isLoading && <div>IS LOADING!!!</div>}
+      <SearchForm setName={setName} setCompany={setCompany} />
 
-      {beersState.isSuccess
-      && (
-      <div style={{ height: 400, width: '100%' }}>
-        <DataGrid
-          onRowClick={
-          (e) => {
-            clickHandler(e);
-          }
-        }
-          rows={rows}
-          columns={columns}
-          pageSize={10}
-        />
-      </div>
+      {stateBeers.isSuccess && (
+        <div className="tableWrapper">
+          <DataGrid
+            onRowClick={(e) => {
+              clickHandler(e);
+            }}
+            rows={rows}
+            columns={columns}
+            pageSize={10}
+            autoHeight	
+          />
+        </div>
       )}
-
-      {/* <Search /> */}
-
     </div>
   );
 };

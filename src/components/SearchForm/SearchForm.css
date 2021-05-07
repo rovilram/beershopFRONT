@@ -1,0 +1,11 @@
+.searchForm {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px;
+}
+.searchForm label {
+    color:#DF8D03;
+}
+.searchForm input {
+  margin: 0 10px;
+}
